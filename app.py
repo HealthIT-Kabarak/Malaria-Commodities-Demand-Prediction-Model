@@ -1,59 +1,44 @@
-from datetime import datetime, date, timedelta
+from datetime import datetime
 from flask import Flask, jsonify,render_template,flash,redirect, template_rendered,url_for,session,logging,request
-from wtforms import Form,StringField,TextAreaField,PasswordField,validators
-from flask_mysqldb import MySQL
-from passlib.hash import sha256_crypt
-from functools import wraps
-import mysql.connector
-from mysql.connector import errorcode
+
 #prediction model
+from CPModel.commodity_prediction_model import infer_model
 #from CPModel.Nakuru_model import timeseries_predictor
 
 app=Flask(__name__)
-
-#configure database (MYSQL)
-
-app.config['MYSQL_HOST']='' #host
-app.config['MYSQL_USER']='' #user
-app.config['MYSQL_PASSWORD']='' #your password
-app.config['MYSQL_DB']=''
-app.config['MYSQL_CURSORCLASS']='DictCursor'
-
-
-#initialize mysql
-mysql=MySQL(app)
 
 @app.route('/')
 def index():
     return render_template('home.html')
 
-class Submit(Form):
-    date1=StringField('date1',[validators.Length(min=7,max=7)])
-    date2=StringField('date2',[validators.Length(min=7,max=7)])
+@app.route('/analysis')
+def analysis():
+    county_name=request.args.get('county_name')
+    #dates for trends
+    fstart_date=request.args.get('fstart_date')
+    fend_date=request.args.get('fend_date')
+    #dates for prediction
+    pred_strdate=request.args.get('fstr')
+    pred_enddate=request.args.get('fend')
+    
+    fstart_date=datetime.strptime(fstart_date,'%Y-%m-%d')
+    fend_date=datetime.strptime(fend_date,'%Y-%m-%d')
+    pred_strdate=datetime.strptime(pred_strdate,'%Y-%m-%d')
+    pred_enddate=datetime.strptime(pred_enddate,'%Y-%m-%d')
+    pred=infer_model(county_name,fstart_date,fend_date,pred_strdate,pred_enddate)
+    
+    return render_template('analysis.html',county=county_name,startDate=fstart_date,endDate=fend_date,predStrdate=pred_strdate,predEnddate=pred_enddate,prediction=pred)
 
-@app.route('/nakuru_reg',methods=['GET','POST'])
-def nakuru_reg():
-    form=Submit(request.form)
-    if request.method=='POST' and form.validate():
-        d1=form.date1.data
-        d2=form.date2.data
-        
-        cur=mysql.connection.cursor()
-        cur.execute("INSERT INTO data(start_date,end_date) VALUES(%s,%s)",(d1,d2))
-        
-        mysql.connection.commit()
-        cur.close()
-        
-        return render_template('nakuru_reg.html')
-    return render_template('nakuru_reg.html',form=form)
+@app.route('/submit',methods=['POST'])
+def submitForm():
+    county_name=request.form.get('countyName')
+    fstart_date=request.form.get('str_date')
+    fend_date=request.form.get('end_date')
+    future_start_date=request.form.get('fs_date')
+    future_end_date=request.form.get('fe_date')
+    
+    return redirect(f"/analysis?county_name={county_name}&fstart_date={fstart_date}&fend_date={fend_date}&fstr={future_start_date}&fend={future_end_date}")
 
-
-
-@app.route('/nakuru')
-def nakuru():
-        
-        
-        return render_template('nakuru.html')
 
 
 if __name__=='__main__':

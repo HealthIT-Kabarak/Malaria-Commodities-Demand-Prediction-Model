@@ -4,31 +4,103 @@
 {% block body %}
 <div class='show-case'>
     <h2> Welcome to the KHIS Malaria Commodity System</h2>
-    <p>You are currently in the home page. Please view a particular county of choice. In order to plan for commodity capacity.</p>
+    <p>You are currently in the home page. Please view a particular county of choice. In order to plan for commodity capacity required.</p>
 </div>
 
 <div class="main-container">
     <div class="child">
-        <b>Nakuru</b>
-        <p>Get insite into forecasting from Nakuru</p>
+        <b>Generate forecast</b>
+        <p>To get insight and predictions kindly enter appropriate details below:</p>
         <br>
         <br>
-        <a href="/nakuru"><p>Read More</p></a>
+        <a><p>Enter date values in the below spaces</p></a>
     </div>
+    
     <div class="child">
-        <b>Tharaka Nithi</b>
-        <p>Get insite into forecasting from Tharaka Nithi County</p>
-        <br>
-        <br>
-        <a href="#"><p>Read More</p></a>
+        <form action="/submit" method="post">
+            <div class="form-field">
+                <label for="countyName" >County</label>
+                <br>
+                <br>
+                <select name="countyName">
+                    <option value="Nairobi County">Nairobi</option>
+                    <option value="Kisumu County">Kisumu</option>
+                    <option value="Nakuru County">Nakuru</option>
+                    <option value="Tharaka Nithi County">Tharaka Nithi</option>
+                    <option value="Garissa County">Garissa</option>
+                    <option value="Homa Bay County">Homa Bay</option>
+                    <option value="Wajir County">Wajir</option>
+                    <option value="Mandera County">Mandera</option>
+                    <option value="Marsabit County">Marsabit</option>
+                    <option value="Kwale County">Kwale</option>
+                    <option value="Kilifi County">Kilifi</option>
+                    <option value="Lamu County">Lamu</option>
+                    <option value="Tana River County">Tana River</option>
+                    <option value="Migori County">Migori</option>
+                    <option value="Siaya County">Siaya</option>
+                    <option value="Kisii County">Kisii</option>
+                    <option value="Meru County">Meru</option>
+                    <option value="Kiambu County">Kiambu</option>
+                    <option value="Kirinyaga County">Kirinyaga</option>
+                    <option value="Uasin Gishu County">Uasin Gishu</option>
+                    <option value="Laikipia County">Laikipia</option>
+                    <option value="Embu County">Embu</option>
+                    <option value="Nyeri County">Nyeri</option>
+                    <option value="Kakamega County">Kakamega</option>
+                    <option value="Mombasa County">Mombasa</option>
+                    <option value="Narok County">Narok</option>
+                    <option value="Turkana County">Turkana</option>
+                </select>
+            </div>
+
+            <div class="form-field">
+                <label>Annual trend for previous year</label>
+                <br>
+                <br>
+            </div>
+
+            <div class="form-field">
+                <label for="str_date">Start date</label>
+                <br>
+                <br>
+                <input type="text" name="str_date" id="str_date" placeholder="yyyy-mm-dd">
+                <br>
+            </div>
+
+            <div class="form-field">
+                <label for="end_date">End date</label>
+                <br>
+                <br>
+                <input type="text" name="end_date" id="end_date" placeholder="yyyy-mm-dd">
+                <br>
+            </div>
+
+            <div class="form-field">
+                <label>Date values for forecast</label>
+                <br>
+                <br>
+            </div>
+
+            <div class="form-field">
+                <label for="fs_date">Future start date</label>
+                <br>
+                <br>
+                <input type="text" name="fs_date" id="fs_date" placeholder="yyyy-mm-dd">
+                <br>
+            </div>
+
+            <div class="form-field">
+                <label for="fe_date">Future end date</label>
+                <br>
+                <br>
+                <input type="text" name="fe_date" id="fe_date" placeholder="yyyy-mm-dd">
+                <br>
+            </div>
+
+            <button type="submit" class="submit-btn">Get insight</button>
+        </form>
     </div>
-    <div class="child">
-       <b> Kakamega </b>
-       <p>Get insite into forecasting from Kakamega County</p>
-        <br>
-        <br>
-        <a href="#"><p>Read More</p></a>
-    </div>
+    
     
 </div>
 {% endblock %}

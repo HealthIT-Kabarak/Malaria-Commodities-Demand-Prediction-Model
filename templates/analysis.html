@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+
+
+{% block body %}
+<div class='show-case'>
+    <h2> KHIS Malaria Commodity System</h2>
+    <p>Your results appear below</p>
+</div>
+
+<div class="main">
+    
+    <div class="child" style="overflow:hidden">
+        <b>County: {{county}}</b>
+        
+    </div>
+</div>
+
+<div class="main-container-pred">
+    <div class="child-pred" style="display:block;">
+        <h2>Time series for {{county}}</h2>
+        <p>This illustrates trend in commodity demand spread throughout a given period of time.</p>
+        <img src="{{url_for('static',filename='renderImages/county-trend.png')}}" style="height:310px; width:100%"> 
+        
+    </div>
+
+    <div class="child-pred">
+        <div><img src="{{url_for('static',filename='renderImages/county-boxplot.png')}}" style="width:400px"> </div>
+        <div>
+            <h2>Commodity demand per month for {{county}}</h2>
+            <p>The following shows demand for each month over the period of between {{startDate}} to {{endDate}}, over previous dates.</p>
+        </div>
+    </div>
+
+    <!--change to requested current prediction-->
+    <div class="child-pred">
+        <div><img src="{{url_for('static',filename='renderImages/county-barchart.png')}}" style="width:400px"> </div>
+        <div>
+            <h2>Commodity demand prediction {{county}}</h2>
+            <p>The barchart illustrates the demand for the period of between {{predStrdate}} to {{predEnddate}}. Note that the numbers represent respective months.</p>
+            <img src="{{url_for('static',filename='renderImages/line-trend.png')}}" style="width:400px"> 
+        </div>
+    </div>
+
+    <div class="child-pred">
+        <div><img src="{{url_for('static',filename='renderImages/line-trend.png')}}" style="width:400px"> </div>
+        <div>
+            <p>The trend illustrated above shows the growth in demand and drop in demand as illustrated in the barchart</p>
+            <h3>The specific predictions are as follows</h3>
+            
+            {% for pred in range(prediction|length) %}
+                <p><strong>Month {{pred+1}}</strong>: {{prediction[pred]|round(0)}} commodities</p>
+            {% endfor %}
+            
+        </div>
+       
+    </div>
+
+   
+
+</div>
+   
+
+
+    
+    
+</div>
+{% endblock %}
